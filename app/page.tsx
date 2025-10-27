@@ -52,6 +52,7 @@ export default function Home() {
         <button
           type="submit"
           disabled={loading || !prompt}
+          onClick={() => confirm("Are you sure?")}
           className="w-full bg-blue-500 text-white p-4 rounded-lg text-lg font-semibold hover:bg-blue-600 disabled:bg-gray-300"
         >
           {loading ? "Generating..." : "Generate Image"}
@@ -60,7 +61,11 @@ export default function Home() {
 
       {image && (
         <div className="mt-8 w-full max-w-2xl">
-          <img src={image} alt="Generated" className="w-full rounded-lg shadow-lg" />
+          <img
+            src={image}
+            alt="Generated"
+            className="w-full rounded-lg shadow-lg"
+          />
         </div>
       )}
     </div>
