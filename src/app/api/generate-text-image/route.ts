@@ -1,7 +1,7 @@
-import { InferenceClient } from "@huggingface/inference";
 import { NextRequest, NextResponse } from "next/server";
+import { InferenceClient } from "@huggingface/inference";
 
-const hf = new InferenceClient(process.env.HF_TOKEN || "");
+const hf = new InferenceClient(process.env.HF_TOKEN);
 
 export async function POST(req: NextRequest) {
   try {
@@ -15,16 +15,14 @@ export async function POST(req: NextRequest) {
     }
 
     const image = (await hf.textToImage({
-      model: "black-forest-labs/FLUX.1-schnell",
+      model: "black-forest-labs/FLUX.1-dev",
       inputs: prompt,
     })) as unknown as Blob;
 
     const buffer = await image.arrayBuffer();
     const base64 = Buffer.from(buffer).toString("base64");
 
-    return NextResponse.json({
-      image: `data:image/png;base64,${base64}`,
-    });
+    return NextResponse.json({ image: `data:image/png;base64,${base64}` });
   } catch (error) {
     console.error("Error generating image:", error);
     return NextResponse.json(
