@@ -82,7 +82,7 @@ export const IngredientRecognition = () => {
                 disabled={loading || !prompt}
                 className="w-full"
               >
-                {loading ? "Generating ..." : "Generate Image"}
+                {loading ? "Generating ..." : "Generate Text"}
               </Button>
             </form>
           </div>
