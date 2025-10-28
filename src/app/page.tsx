@@ -1,10 +1,11 @@
 "use client";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui";
 import {
-  ImageCreater,
+  ImageCreator,
   ImageAnalysis,
   IngredientRecognition,
 } from "@/components/main";
+import { GeminiChat } from "@/components/main";
 
 const HomePage = () => {
   return (
@@ -16,7 +17,7 @@ const HomePage = () => {
             <TabsTrigger value="Ingredient recognition">
               Ingredient recognition
             </TabsTrigger>
-            <TabsTrigger value="Image creater">Image creater</TabsTrigger>
+            <TabsTrigger value="Image creator">Image creator</TabsTrigger>
           </TabsList>
 
           <div>
@@ -24,7 +25,10 @@ const HomePage = () => {
 
             <IngredientRecognition />
 
-            <ImageCreater />
+            <ImageCreator />
+          </div>
+          <div>
+            <GeminiChat />
           </div>
         </Tabs>
       </div>

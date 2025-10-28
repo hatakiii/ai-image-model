@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Button, TabsContent } from "@/components/ui";
 import { RxReload } from "react-icons/rx";
 
-export const ImageCreater = () => {
+export const ImageCreator = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [prompt, setPrompt] = useState<string>("");
   const [image, setImage] = useState<string>("");
