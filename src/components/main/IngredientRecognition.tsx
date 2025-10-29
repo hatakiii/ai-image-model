@@ -2,6 +2,8 @@
 import React, { useState } from "react";
 import { Button, TabsContent } from "@/components/ui";
 import { RxReload } from "react-icons/rx";
+import { LuSparkles } from "react-icons/lu";
+import { FiFileText } from "react-icons/fi";
 
 export const IngredientRecognition = () => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -48,7 +50,8 @@ export const IngredientRecognition = () => {
         <div className="flex flex-col gap-6">
           <div className="flex flex-col gap-2">
             <div className="flex justify-between">
-              <div className="text-xl leading-7 font-semibold text-foreground">
+              <div className="text-xl leading-7 font-semibold text-foreground flex gap-2 items-center">
+                <LuSparkles />
                 Ingredient recognition
               </div>
               <Button
@@ -88,7 +91,8 @@ export const IngredientRecognition = () => {
           </div>
 
           <div className="flex flex-col gap-2">
-            <div className="text-xl leading-7 font-semibold text-foreground">
+            <div className="text-xl leading-7 font-semibold text-foreground flex gap-2 items-center">
+              <FiFileText />
               Identified Ingredients
             </div>
             {ingredient ? (

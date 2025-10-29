@@ -5,8 +5,8 @@ import { LuMessageCircle, LuSend } from "react-icons/lu";
 import { IoClose } from "react-icons/io5";
 
 export const GeminiChat = () => {
-  const [open, setOpen] = useState(true);
-  const [input, setInput] = useState("");
+  const [open, setOpen] = useState(false);
+  const [input, setInput] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const chatEndRef = useRef<HTMLDivElement>(null);
 
@@ -63,7 +63,7 @@ export const GeminiChat = () => {
       )}
 
       {open && (
-        <div className="w-[350px] h-[480px] border-2 border-black rounded-md flex flex-col bg-white">
+        <div className="w-[350px] h-[480px] border-2 border-[#0000001a] rounded-md flex flex-col bg-white shadow-2xs">
           <div className="w-full h-12 flex justify-between items-center px-4 border-b">
             <p className="text-foreground text-base font-medium leading-6">
               Chat assistant
@@ -85,13 +85,12 @@ export const GeminiChat = () => {
                 }`}
               >
                 <div
-                  className={`px-3 py-2 rounded-lg max-w-[75%] text-sm ${
+                  className={`px-4 py-2 rounded-lg max-w-[75%] text-sm ${
                     msg.role === "user"
-                      ? "bg-blue-600 text-white"
-                      : "bg-gray-200 text-black"
+                      ? "bg-[#f4f4f5cc] text-black"
+                      : "bg-[#18181be6] text-white"
                   }`}
                 >
-                  <strong>{msg.role === "user" ? "Me: " : "AI: "}</strong>
                   {msg.text}
                 </div>
               </div>
