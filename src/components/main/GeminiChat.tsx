@@ -1,44 +1,57 @@
-import React from "react";
-import { useState } from "react";
-import { Button, TabsContent } from "@/components/ui";
-import { LuMessageCircle } from "react-icons/lu";
+"use client";
+import React, { useState, useRef, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { LuMessageCircle, LuSend } from "react-icons/lu";
+import { IoClose } from "react-icons/io5";
 
 export const GeminiChat = () => {
-  const [open, setOpen] = useState<boolean>(false);
+  const [open, setOpen] = useState(true);
+  const [input, setInput] = useState("");
   const [loading, setLoading] = useState<boolean>(false);
-  const [prompt, setPrompt] = useState<string>("");
-  const [text, setText] = useState<string>("");
+  const chatEndRef = useRef<HTMLDivElement>(null);
 
-  const generateTextToText = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const [messages, setMessages] = useState<
+    { role: "user" | "ai"; text: string }[]
+  >([]);
+
+  const onSendChat = async () => {
+    if (!input.trim()) return;
+
+    setMessages((prev) => [...prev, { role: "user", text: input }]);
+
+    const userMessage = input;
+    setInput("");
     setLoading(true);
-
     try {
       const response = await fetch("/api/generate-chat", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ prompt }),
+        body: JSON.stringify({ prompt: userMessage }),
       });
 
       const data = await response.json();
-      console.log(data, "TEXT");
-      if (data.text) {
-        setText(data.text);
-      } else {
-        ("Failed to generate text to text");
+
+      if (data?.text) {
+        setMessages((prev) => [...prev, { role: "ai", text: data.text }]);
       }
     } catch (error) {
-      console.error("Error", error);
-      alert("Failed to generate text to text");
+      setMessages((prev) => [
+        ...prev,
+        { role: "ai", text: "Error fetching response" },
+      ]);
     } finally {
       setLoading(false);
     }
   };
+  useEffect(() => {
+    chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages, loading]);
+  console.log("messages", messages);
 
   return (
-    <div>
+    <div className="fixed bottom-6 right-6">
       {!open && (
         <Button
           variant="outline"
@@ -48,58 +61,66 @@ export const GeminiChat = () => {
           <LuMessageCircle className="w-4 h-4 text-white" />
         </Button>
       )}
+
       {open && (
-        <div className="w-145">
-          <div className="flex flex-col gap-6">
-            <div className="flex flex-col gap-2">
-              <div className="flex justify-between">
-                <div className="text-xl leading-7 font-semibold text-foreground">
-                  AI chat
-                </div>
-                <Button onClick={() => setOpen(false)}>X</Button>
-                <Button type="button" variant={"outline"} className="w-12 h-10">
-                  {/* <RxReload size={16} /> */}
-                </Button>
-              </div>
+        <div className="w-[350px] h-[480px] border-2 border-black rounded-md flex flex-col bg-white">
+          <div className="w-full h-12 flex justify-between items-center px-4 border-b">
+            <p className="text-foreground text-base font-medium leading-6">
+              Chat assistant
+            </p>
+            <Button
+              onClick={() => setOpen(false)}
+              className="w-8 h-8 bg-white hover:bg-white border-[#E4E4E7] border-2"
+            >
+              <IoClose className="text-black" />
+            </Button>
+          </div>
 
-              <div className="text-sm leading-5 text-muted-foreground">
-                What do you want to ask? Ask anything you want.
-              </div>
-
-              <form
-                onSubmit={generateTextToText}
-                className="w-full flex flex-col gap-2"
+          <div className="flex-1 px-4 py-3 overflow-y-auto space-y-3">
+            {messages.map((msg, i) => (
+              <div
+                key={i}
+                className={`flex ${
+                  msg.role === "user" ? "justify-end" : "justify-start"
+                }`}
               >
-                <input
-                  type="text"
-                  value={prompt}
-                  onChange={(e) => setPrompt(e.target.value)}
-                  placeholder="Enter your prompt..."
-                  className="w-full px-3 py-2 border border-input rounded-md text-sm leading-5 text-primary"
-                />
-
-                <Button
-                  type="submit"
-                  disabled={loading || !prompt}
-                  className="w-full"
+                <div
+                  className={`px-3 py-2 rounded-lg max-w-[75%] text-sm ${
+                    msg.role === "user"
+                      ? "bg-blue-600 text-white"
+                      : "bg-gray-200 text-black"
+                  }`}
                 >
-                  {loading ? "Generating ..." : "Generate Chat"}
-                </Button>
-              </form>
-            </div>
-
-            <div className="flex flex-col gap-2">
-              <div className="text-xl leading-7 font-semibold text-foreground">
-                Identified texts
-              </div>
-              {text ? (
-                <div>{text}</div>
-              ) : (
-                <div className="text-sm leading-6 text-muted-foreground">
-                  First, enter your text to recognize an texts.
+                  <strong>{msg.role === "user" ? "Me: " : "AI: "}</strong>
+                  {msg.text}
                 </div>
-              )}
-            </div>
+              </div>
+            ))}
+            {loading && (
+              <div className="flex items-center space-x-2 text-gray-400">
+                <span className="animate-pulse">AI is typing...</span>
+              </div>
+            )}
+
+            <div ref={chatEndRef} />
+          </div>
+
+          <div className="w-full flex items-start justify-between px-4 py-2 border-t">
+            <input
+              type="text"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              placeholder="Type your message..."
+              className="flex-1 h-10 border border-input rounded-md px-3 text-sm"
+            />
+            <Button
+              className="w-10 h-10 rounded-full ml-2"
+              type="submit"
+              onClick={onSendChat}
+              disabled={loading}
+            >
+              <LuSend />
+            </Button>
           </div>
         </div>
       )}
