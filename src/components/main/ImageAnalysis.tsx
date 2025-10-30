@@ -4,6 +4,7 @@ import { Button, TabsContent } from "@/components/ui";
 import { RxReload } from "react-icons/rx";
 import { LuSparkles } from "react-icons/lu";
 import { FiFileText } from "react-icons/fi";
+import Image from "next/image";
 
 export const ImageAnalysis = () => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -77,10 +78,12 @@ export const ImageAnalysis = () => {
           </div>
 
           {imgPreview ? (
-            <img
+            <Image
               src={imgPreview}
               className="w-auto h-100 rounded-md object-cover"
               alt="image"
+              width={200}
+              height={100}
             />
           ) : (
             <input

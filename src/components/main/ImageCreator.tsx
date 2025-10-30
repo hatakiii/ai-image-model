@@ -4,6 +4,7 @@ import { Button, TabsContent } from "@/components/ui";
 import { RxReload } from "react-icons/rx";
 import { LuSparkles } from "react-icons/lu";
 import { FiImage } from "react-icons/fi";
+import Image from "next/image";
 
 export const ImageCreator = () => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -91,9 +92,11 @@ export const ImageCreator = () => {
           </div>
 
           {image ? (
-            <img
+            <Image
               src={image}
               alt="Genereated Image"
+              width={200}
+              height={100}
               className="w-full rounded-xl"
             />
           ) : (
