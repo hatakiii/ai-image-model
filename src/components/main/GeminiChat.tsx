@@ -63,7 +63,7 @@ export const GeminiChat = () => {
       )}
 
       {open && (
-        <div className="w-[350px] h-[480px] border-2 border-[#0000001a] rounded-md flex flex-col bg-white shadow-2xs">
+        <div className="sm:w-[350px] w-full h-[480px] border-2 border-[#0000001a] rounded-md flex flex-col bg-white shadow-2xs ">
           <div className="w-full h-12 flex justify-between items-center px-4 border-b">
             <p className="text-foreground text-base font-medium leading-6">
               Chat assistant

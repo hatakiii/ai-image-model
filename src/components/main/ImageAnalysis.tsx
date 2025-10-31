@@ -55,7 +55,7 @@ export const ImageAnalysis = () => {
   };
 
   return (
-    <TabsContent value="Image analysis" className="w-145">
+    <TabsContent value="Image analysis" className="sm:w-145 w-full">
       <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-2">
           <div className="flex justify-between">

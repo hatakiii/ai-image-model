@@ -46,7 +46,7 @@ export const IngredientRecognition = () => {
 
   return (
     <div>
-      <TabsContent value="Ingredient recognition" className="w-145">
+      <TabsContent value="Ingredient recognition" className="sm:w-145 w-full">
         <div className="flex flex-col gap-6">
           <div className="flex flex-col gap-2">
             <div className="flex justify-between">

@@ -12,9 +12,9 @@ const HomePage = () => {
   return (
     <div className="w-screen h-screen flex flex-col items-center m-auto">
       <Header />
-      <div className="w-145 mt-6">
-        <Tabs defaultValue="Image analysis" className="w-105 gap-6">
-          <TabsList className="w-full p-1">
+      <div className="sm:w-145 w-full mt-6 px-3 sm:p-0">
+        <Tabs defaultValue="Image analysis" className="sm:w-105 w-full gap-6">
+          <TabsList className="w-full p-1 flex flex-wrap h-full">
             <TabsTrigger value="Image analysis">Image analysis</TabsTrigger>
             <TabsTrigger value="Ingredient recognition">
               Ingredient recognition
